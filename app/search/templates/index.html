@@ -5,12 +5,40 @@
     <meta name="viewport" content="width=device-width" />
     <title>libc database</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="container">
-      hihi
+      <div class="page-header">
+        <h1>Libc database online</h1>
+      </div>
+      <div class="row">
+
+        <div class="col-sm-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">Query</div>
+            <div class="panel-body">
+              <div id="queries"></div>
+              <form class="form-inline">
+                <button type="button" id="query-add" class="btn btn-primary">+</button>
+                <button type="button" id="query-find" class="btn btn-success">Find</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">Result</div>
+            <div class="panel-body">
+              Body
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
   </body>
