@@ -16,6 +16,18 @@ function add_query(name, addr) {
     $('#queries').append(form);
 }
 
+function get_query() {
+    var query = [];
+    $('.query-item').each(function(i,e) {
+        var $e = $(e);
+        var name = $e.find('.query-name').val();
+        var addr = $e.find('.query-addr').val();
+        if (name && addr)
+            query.push(name + ':' + addr)
+    });
+    return query.join(',');
+}
+
 $('body').on('click', '.query-del', function(e) {
     $(this).parent('form').remove();
 });
@@ -25,16 +37,14 @@ $('#query-add').click(function() {
 });
 
 $('#query-find').click(function() {
-    var query = [];
-    $('.query-item').each(function(i,e) {
-        var $e = $(e);
-        var name = $e.find('.query-name').val();
-        var addr = $e.find('.query-addr').val();
-        if (name && addr)
-            query.push(name + ':' + addr)
+    location.href = URI(window.location).query({q: get_query()});
+});
+
+$('.lib-item').click(function() {
+    location.href = URI(window.location).query({
+        q: get_query(),
+        l: $(this).text()
     });
-    query = query.join(',');
-    location.href = URI(window.location).query({q: query});
 });
 
 $(document).ready(function() {

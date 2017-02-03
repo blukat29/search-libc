@@ -31,16 +31,26 @@
         </div>
 
         <div class="col-sm-6">
+
           <div class="panel panel-default">
             <div class="panel-heading">Libs</div>
             <div class="panel-body">
               {% for lib in libs %}
-              <a>{{ lib }}</a>
+              <a class="lib-item">{{ lib }}</a>
               {% endfor %}
             </div>
           </div>
-        </div>
 
+        {% if dump %}
+          <div class="panel panel-default">
+            <div class="panel-heading">{{ dump['id'] }}</div>
+            <div class="panel-body">
+              <pre>{{ dump['raw'] }}
+              </pre>
+            </div>
+          </div>
+        {% endif %}
+        </div>
       </div>
     </div>
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>

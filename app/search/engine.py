@@ -1,4 +1,4 @@
-import subprocess
+from subprocess import Popen, PIPE
 import os
 import re
 
@@ -12,10 +12,13 @@ class Engine(object):
     def _run_database_tool(self, name, args):
         program = os.path.abspath(os.path.join(self.libcdb, name))
         argv = [program] + args
-        out = subprocess.check_output(argv, cwd=self.libcdb)
-        out = out.decode('utf-8')
-        lines = out.splitlines()
-        return lines
+
+        p = Popen(argv, cwd=self.libcdb, stdout=PIPE, stderr=PIPE)
+        out, err = p.communicate()
+        if len(err) == 0:
+            return out.decode('utf-8')
+        else:
+            return ''
 
     def _find_database(self, query):
 
@@ -25,7 +28,7 @@ class Engine(object):
             args.append(value)
 
         libs = []
-        for line in self._run_database_tool('find', args):
+        for line in self._run_database_tool('find', args).splitlines():
             m = info_re.match(line)
             libs.append(m.group(1))
 
@@ -36,5 +39,13 @@ class Engine(object):
             return []
         return self._find_database(query)
 
+    def dump(self, lib, names=[]):
+        default_names = ['system', 'open', 'read', 'write', 'str_bin_sh']
+        argv = [lib] + default_names + names
+        raw = self._run_database_tool('dump', argv)
+        if len(raw) > 0:
+            return {'id': lib, 'raw': raw}
+        else:
+            return {}
 
 engine = Engine('../libc-database')

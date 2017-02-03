@@ -17,9 +17,12 @@ def decode_query(query):
 @search_view.route('/')
 def index():
     query = decode_query(request.args.get('q', ''))
+    libs = engine.find(query)
+
+    lib = request.args.get('l', '')
+    dump = engine.dump(lib, list(query.keys()))
+
     if len(query) == 0:
         demo_query = OrderedDict([('__libc_start_main_ret','f45'), ('printf','340')])
-        return render_template('index.html', query=demo_query)
-
-    libs = engine.find(query)
-    return render_template('index.html', query=query, libs=libs)
+        query = demo_query
+    return render_template('index.html', query=query, libs=libs, dump=dump)
