@@ -33,7 +33,9 @@
           <div class="panel panel-default">
             <div class="panel-heading">Result</div>
             <div class="panel-body">
-              Body
+              {% for lib in libs %}
+              <div>{{ lib }}</div>
+              {% endfor %}
             </div>
           </div>
         </div>
