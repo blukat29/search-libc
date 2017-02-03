@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, render_template, request
+from collections import OrderedDict
 
 from .engine import engine
 
@@ -15,6 +16,10 @@ def decode_query(query):
 
 @search_view.route('/')
 def index():
-    query = decode_query(request.args.get('query', ''))
+    query = decode_query(request.args.get('q', ''))
+    if len(query) == 0:
+        demo_query = OrderedDict([('__libc_start_main_ret','f45'), ('printf','340')])
+        return render_template('index.html', query=demo_query)
+
     libs = engine.find(query)
-    return render_template('index.html', libs=libs)
+    return render_template('index.html', query=query, libs=libs)

@@ -33,10 +33,9 @@ $('#query-find').click(function() {
         if (name && addr)
             query.push(name + ':' + addr)
     });
-    location.href = '/?query=' + query.join(',');
+    query = query.join(',');
+    location.href = URI(window.location).query({q: query});
 });
 
 $(document).ready(function() {
-    add_query("__libc_start_main_ret", "f45");
-    add_query("printf", "340");
 });

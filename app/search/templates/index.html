@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='URI.min.js') }}"></script>
   </head>
   <body>
     <div class="container">
@@ -31,10 +32,10 @@
 
         <div class="col-sm-6">
           <div class="panel panel-default">
-            <div class="panel-heading">Result</div>
+            <div class="panel-heading">Libs</div>
             <div class="panel-body">
               {% for lib in libs %}
-              <div>{{ lib }}</div>
+              <a>{{ lib }}</a>
               {% endfor %}
             </div>
           </div>
@@ -43,5 +44,10 @@
       </div>
     </div>
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+    <script>
+    {% for name, addr in query.items() %}
+    add_query("{{ name }}", "{{ addr }}");
+    {% endfor %}
+    </script>
   </body>
 </html>
