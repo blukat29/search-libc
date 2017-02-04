@@ -47,5 +47,34 @@ $('.lib-item').click(function() {
     });
 });
 
+function get_ofs($e) {
+    return parseInt($e.find('.symbol-ofs').text(), 16);
+}
+
+function set_ofs($e, d) {
+    var s = ''
+    if (d < 0)
+        s = '-0x' + (-d).toString(16);
+    else
+        s = '0x' + (+d).toString(16);
+    $e.find('.symbol-diff').text(s);
+}
+
+function show_offset_diffs($radio) {
+    var $row = $radio.parents('tr.symbol-row');
+    var base = get_ofs($row);
+    $('.symbol-row').each(function(i, e) {
+        var $e = $(e);
+        set_ofs($e, get_ofs($e) - base);
+    });
+}
+
+$('.symbol-radio').change(function() {
+    show_offset_diffs($(this));
+});
+
 $(document).ready(function() {
+    var $first = $('.symbol-radio').first();
+    $first.prop('checked', true);
+    show_offset_diffs($first);
 });

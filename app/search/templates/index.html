@@ -53,14 +53,16 @@
           <div class="panel panel-default">
             <div class="panel-heading"><h1 class="panel-title">{{ lib }}</h1></div>
             <div class="panel-body">
-              <table class="table table-condensed">
+              <table class="table table-condensed table-hover">
                 <tr>
+                  <th></th>
                   <th>Symbol</th>
                   <th>Offset</th>
                   <th>Difference</th>
                 </tr>
                 {% for name, ofs in symbols %}
-                <tr class="mono-font">
+                <tr class="mono-font symbol-row">
+                  <td><input type="radio" name="choose-base" class="symbol-radio" /></td>
                   <td class="symbol-name">{{ name }}</td>
                   <td class="symbol-ofs">{{ '0x%06x' | format(ofs) }}</td>
                   <td class="symbol-diff"></td>
