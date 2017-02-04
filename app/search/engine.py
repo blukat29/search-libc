@@ -1,6 +1,7 @@
 from subprocess import Popen, PIPE
 import os
 import re
+import operator
 
 info_re = re.compile(r'[^(]+\(id (.*)\)')
 ofs_re = re.compile(r'offset_([^\s]+) = 0x([0-9a-fA-F]+)')
@@ -57,6 +58,9 @@ class Engine(object):
             symbol = m.group(1)
             ofs = int(m.group(2), 16)
             symbols[symbol] = ofs
-        return symbols
+
+        symbols_list = sorted(symbols.items(), key=operator.itemgetter(1))
+        return symbols_list
+
 
 engine = Engine('../libc-database')

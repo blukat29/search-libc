@@ -59,7 +59,7 @@
                   <th>Offset</th>
                   <th>Difference</th>
                 </tr>
-                {% for name, ofs in symbols.items() %}
+                {% for name, ofs in symbols %}
                 <tr class="mono-font">
                   <td class="symbol-name">{{ name }}</td>
                   <td class="symbol-ofs">{{ '0x%06x' | format(ofs) }}</td>
