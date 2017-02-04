@@ -62,6 +62,9 @@ function set_ofs($e, d) {
 
 function show_offset_diffs($radio) {
     var $row = $radio.parents('tr.symbol-row');
+    $('.symbol-row').removeClass('info');
+    $row.addClass('info');
+
     var base = get_ofs($row);
     $('.symbol-row').each(function(i, e) {
         var $e = $(e);

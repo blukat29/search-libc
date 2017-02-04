@@ -1,3 +1,4 @@
+/* Query panel */
 .form-inline {
     margin-top: 1em;
 }
@@ -10,10 +11,20 @@
 .query-addr.form-control {
     width: 20%;
 }
+
+/* Matches panel */
 .lib-item.active {
     font-weight: bold;
 }
+
+/* Common */
 .mono-font {
     font-size: 0.9em;
     font-family: Monaco, Consolas, monospace;
+}
+.panel-title-inline {
+    display: inline-block;
+}
+.panel-title-right {
+    float: right;
 }

@@ -20,8 +20,8 @@
         <div class="col-sm-6">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h1 class="panel-title" style="display: inline-block;">Query</h1>
-              <a style="float: right;" href="/">Start over</a>
+              <h1 class="panel-title panel-title-inline">Query</h1>
+              <a class="panel-title-right" href="/">Start over</a>
             </div>
             <div class="panel-body">
               <div id="queries"></div>
@@ -39,19 +39,23 @@
           <div class="panel panel-default">
             <div class="panel-heading"><h1 class="panel-title">Matches</h1></div>
             <div class="panel-body">
-
-                {% for lib_name in libs %}
-                <div><a class="lib-item {{ 'active' if lib_name == lib }}">
+              {% for lib_name in libs %}
+              <div>
+                <a class="lib-item {{ 'active' if lib_name == lib }}">
                   {{ lib_name }}
-                  </a></div>
-                {% endfor %}
+                </a>
+              </div>
+              {% endfor %}
             </div>
           </div>
           {% endif %}
 
           {% if symbols %}
           <div class="panel panel-default">
-            <div class="panel-heading"><h1 class="panel-title">{{ lib }}</h1></div>
+            <div class="panel-heading">
+              <h1 class="panel-title panel-title-inline">{{ lib }}</h1>
+              <a class="panel-title-right" href="/download/{{ lib }}">Download</a>
+            </div>
             <div class="panel-body">
               <table class="table table-condensed table-hover">
                 <tr>
