@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>libc database</title>
+    <title>libc database search</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -13,13 +13,16 @@
   <body>
     <div class="container">
       <div class="page-header">
-        <h1>Libc database online</h1>
+        <h1>libc database search</h1>
       </div>
       <div class="row">
 
         <div class="col-sm-6">
           <div class="panel panel-default">
-            <div class="panel-heading">Query</div>
+            <div class="panel-heading">
+              <h1 class="panel-title" style="display: inline-block;">Query</h1>
+              <a style="float: right;" href="/">Start over</a>
+            </div>
             <div class="panel-body">
               <div id="queries"></div>
               <form class="form-inline">
@@ -32,24 +35,41 @@
 
         <div class="col-sm-6">
 
+          {% if libs %}
           <div class="panel panel-default">
-            <div class="panel-heading">Libs</div>
+            <div class="panel-heading"><h1 class="panel-title">Matches</h1></div>
             <div class="panel-body">
-              {% for lib in libs %}
-              <a class="lib-item">{{ lib }}</a>
-              {% endfor %}
-            </div>
-          </div>
 
-        {% if dump %}
-          <div class="panel panel-default">
-            <div class="panel-heading">{{ dump['id'] }}</div>
-            <div class="panel-body">
-              <pre>{{ dump['raw'] }}
-              </pre>
+                {% for lib_name in libs %}
+                <div><a class="lib-item {{ 'active' if lib_name == lib }}">
+                  {{ lib_name }}
+                  </a></div>
+                {% endfor %}
             </div>
           </div>
-        {% endif %}
+          {% endif %}
+
+          {% if symbols %}
+          <div class="panel panel-default">
+            <div class="panel-heading"><h1 class="panel-title">{{ lib }}</h1></div>
+            <div class="panel-body">
+              <table class="table table-condensed">
+                <tr>
+                  <th>Symbol</th>
+                  <th>Offset</th>
+                  <th>Difference</th>
+                </tr>
+                {% for name, ofs in symbols.items() %}
+                <tr class="mono-font">
+                  <td class="symbol-name">{{ name }}</td>
+                  <td class="symbol-ofs">{{ '0x%06x' | format(ofs) }}</td>
+                  <td class="symbol-diff"></td>
+                <tr>
+                {% endfor %}
+              </table>
+            </div>
+          </div>
+          {% endif %}
         </div>
       </div>
     </div>

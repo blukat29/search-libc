@@ -15,13 +15,27 @@ def decode_query(query):
 
 @search_view.route('/')
 def index():
+    '''
+    /
+        fill the query form with demo query
+    ?q=n1:o1,n2:o2
+        fill in query form
+        search libs
+    ?q=n1:o1,n2:o2&l=libc_1.2.3
+        fill in query form
+        search libs
+        show symbols in the lib
+    '''
     query = decode_query(request.args.get('q', ''))
-    libs = engine.find(query)
-
-    lib = request.args.get('l', '')
-    dump = engine.dump(lib, list(query.keys()))
-
     if len(query) == 0:
-        demo_query = {'__libc_start_main_ret':'f45', 'printf':'340'}
-        query = demo_query
-    return render_template('index.html', query=query, libs=libs, dump=dump)
+        demo_query = {'__libc_start_main_ret':'7ae', '_IO_2_1_stdin_':'600'}
+        return render_template('index.html', query=demo_query)
+    else:
+        libs = engine.find(query)
+
+    lib = request.args.get('l')
+    if not lib:
+        return render_template('index.html', query=query, libs=libs)
+
+    symbols = engine.dump(lib, list(query.keys()))
+    return render_template('index.html', query=query, libs=libs, lib=lib, symbols=symbols)

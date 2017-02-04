@@ -5,9 +5,9 @@ function add_query(name, addr) {
     addr = addr || "";
 
     var form = $('<form class="form-inline query-item"></form>');
-    var e_name = $('<input type="text" class="form-control query-name" value="'
+    var e_name = $('<input type="text" class="form-control mono-font query-name" value="'
             + name + '"/>');
-    var e_addr = $('<input type="text" class="form-control query-addr" value="'
+    var e_addr = $('<input type="text" class="form-control mono-font query-addr" value="'
             + addr + '"/>');
     var del_btn = $('<button type="button" class="query-del btn btn-danger">-</button>');
     form.append(e_name);
@@ -43,7 +43,7 @@ $('#query-find').click(function() {
 $('.lib-item').click(function() {
     location.href = URI(window.location).query({
         q: get_query(),
-        l: $(this).text()
+        l: $.trim($(this).text())
     });
 });
 

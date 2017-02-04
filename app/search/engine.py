@@ -3,6 +3,7 @@ import os
 import re
 
 info_re = re.compile(r'[^(]+\(id (.*)\)')
+ofs_re = re.compile(r'offset_([^\s]+) = 0x([0-9a-fA-F]+)')
 
 class Engine(object):
 
@@ -49,7 +50,13 @@ class Engine(object):
         dumped = self._run_database_tool('dump', argv)
         if not dumped:
             return None
-        else:
-            return {'id': lib, 'raw': dumped}
+
+        symbols = {}
+        for line in dumped.splitlines():
+            m = ofs_re.match(line)
+            symbol = m.group(1)
+            ofs = int(m.group(2), 16)
+            symbols[symbol] = ofs
+        return symbols
 
 engine = Engine('../libc-database')

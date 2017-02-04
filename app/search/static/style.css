@@ -3,11 +3,17 @@
 }
 .form-inline > input {
     margin-right: 1em;
-    font-family: Monaco, Consolas, monospace;
 }
 .query-name.form-control {
     width: 60%;
 }
 .query-addr.form-control {
     width: 20%;
+}
+.lib-item.active {
+    font-weight: bold;
+}
+.mono-font {
+    font-size: 0.9em;
+    font-family: Monaco, Consolas, monospace;
 }
