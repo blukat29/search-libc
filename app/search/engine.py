@@ -18,7 +18,7 @@ class Engine(object):
         if len(err) == 0:
             return out.decode('utf-8')
         else:
-            return ''
+            return None
 
     def _find_database(self, query):
 
@@ -27,11 +27,14 @@ class Engine(object):
             args.append(key)
             args.append(value)
 
+        found = self._run_database_tool('find', args)
+        if not found:
+            return []
+
         libs = []
-        for line in self._run_database_tool('find', args).splitlines():
+        for line in found.splitlines():
             m = info_re.match(line)
             libs.append(m.group(1))
-
         return libs
 
     def find(self, query):
@@ -42,10 +45,11 @@ class Engine(object):
     def dump(self, lib, names=[]):
         default_names = ['system', 'open', 'read', 'write', 'str_bin_sh']
         argv = [lib] + default_names + names
-        raw = self._run_database_tool('dump', argv)
-        if len(raw) > 0:
-            return {'id': lib, 'raw': raw}
+
+        dumped = self._run_database_tool('dump', argv)
+        if not dumped:
+            return None
         else:
-            return {}
+            return {'id': lib, 'raw': dumped}
 
 engine = Engine('../libc-database')

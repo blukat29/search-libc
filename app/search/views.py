@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, render_template, request
-from collections import OrderedDict
 
 from .engine import engine
 
@@ -23,6 +22,6 @@ def index():
     dump = engine.dump(lib, list(query.keys()))
 
     if len(query) == 0:
-        demo_query = OrderedDict([('__libc_start_main_ret','f45'), ('printf','340')])
+        demo_query = {'__libc_start_main_ret':'f45', 'printf':'340'}
         query = demo_query
     return render_template('index.html', query=query, libs=libs, dump=dump)
