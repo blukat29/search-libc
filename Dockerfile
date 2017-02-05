@@ -18,3 +18,5 @@ COPY cron.conf /etc/supervisor/conf.d/cron.conf
 
 COPY app /app
 COPY libc-database /libc-database
+# nginx.conf of the base image knows only /app/static.
+RUN ln -s /app/search/static /app/static
