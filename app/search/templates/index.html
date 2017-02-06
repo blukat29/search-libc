@@ -54,7 +54,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h1 class="panel-title panel-title-inline">{{ lib }}</h1>
-              <a class="panel-title-right" href="/download/{{ lib }}">Download</a>
+              <a class="panel-title-right" href="/d/{{ lib }}.so">Download</a>
             </div>
             <div class="panel-body">
               <table class="table table-condensed table-hover">
@@ -73,6 +73,9 @@
                 <tr>
                 {% endfor %}
               </table>
+              <div>
+                <a target="_blank" href="/d/{{ lib }}.symbols">All symbols</a>
+              </div>
             </div>
           </div>
           {% endif %}

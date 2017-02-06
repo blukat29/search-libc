@@ -10,13 +10,17 @@ RUN apt-get update \
 
 # Install cron job
 COPY crontab /etc/cron.d/libc-update
-RUN chmod 0644 /etc/cron.d/libc-update
-RUN touch /var/log/libcdb.log
+RUN chmod 0644 /etc/cron.d/libc-update \
+    && touch /var/log/libcdb.log
 
 # Register cron to supervisor
 COPY cron.conf /etc/supervisor/conf.d/cron.conf
 
+# Copy application
 COPY app /app
 COPY libc-database /libc-database
-# nginx.conf of the base image knows only /app/static.
+
+# nginx.conf of the base image aliases /static to /app/static.
 RUN ln -s /app/search/static /app/static
+# Enable download link
+COPY nginx.conf /etc/nginx/conf.d/nginx.conf
