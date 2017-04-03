@@ -20,16 +20,17 @@ def decode_query(query):
     return decoded
 
 def log_query(query, libs, lib):
-    ip = request.environ.get('X-Real-IP') or request.environ.get('REMOTE_ADDR')
-    msg = {'query': query, 'ip': ip, 'result': libs, 'chosen': lib}
-
-    err = ''
+    ip = request.environ.get('X-Forwarded-For') or \
+            request.environ.get('X-Real-IP') or \
+            request.environ.get('REMOTE_ADDR')
+    err = []
     if len(libs) == 0:
-        err += ' No_hit'
+        err.append('No hit')
     if lib and (lib not in libs):
-        err += ' Lib_not_in_hits'
+        err.append('Lib not in result')
 
-    logger.warning('VIEWS: Req: {}, Err:{}'.format(json.dumps(msg), err))
+    msg = {'query': query, 'ip': ip, 'result': libs, 'chosen': lib, 'error': err}
+    logger.warning('VIEWS: {}'.format(json.dumps(msg)))
 
 @search_view.route('/')
 def index():
