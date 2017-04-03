@@ -1,3 +1,9 @@
+import logging
+import json
+
+logger = logging.getLogger('views')
+logger.setLevel(logging.INFO)
+
 from flask import Blueprint, jsonify, render_template, request
 
 from .engine import engine
@@ -12,6 +18,18 @@ def decode_query(query):
             key, value = splitted
             decoded[key] = value
     return decoded
+
+def log_query(query, libs, lib):
+    ip = request.environ.get('X-Real-IP') or request.environ.get('REMOTE_ADDR')
+    msg = {'query': query, 'ip': ip, 'result': libs, 'chosen': lib}
+
+    err = ''
+    if len(libs) == 0:
+        err += ' No_hit'
+    if lib and (lib not in libs):
+        err += ' Lib_not_in_hits'
+
+    logger.warning('VIEWS: Req: {}, Err:{}'.format(json.dumps(msg), err))
 
 @search_view.route('/')
 def index():
@@ -34,6 +52,7 @@ def index():
         libs = engine.find(query)
 
     lib = request.args.get('l')
+    log_query(query, libs, lib)
     if not lib:
         return render_template('index.html', query=query, libs=libs)
 
