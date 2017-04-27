@@ -20,6 +20,10 @@ COPY cron.conf /etc/supervisor/conf.d/cron.conf
 COPY app /app
 COPY libc-database /libc-database
 
+# Generate autocomplete symbols list
+COPY gen_names.sh /gen_names.sh
+RUN cd / && /gen_names.sh
+
 # nginx.conf of the base image aliases /static to /app/static.
 RUN ln -s /app/search/static /app/static
 # Enable download link

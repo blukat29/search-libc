@@ -72,6 +72,12 @@ function show_offset_diffs($radio) {
     });
 }
 
+function set_autocomplete(names) {
+    $('.query-name').autocomplete({
+        source: names
+    });
+}
+
 $('.symbol-radio').change(function() {
     show_offset_diffs($(this));
 });

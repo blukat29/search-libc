@@ -6,8 +6,10 @@
     <title>libc database search</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/start/jquery-ui.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='URI.min.js') }}"></script>
   </head>
   <body>
@@ -95,10 +97,14 @@
       </div>
     </div>
     <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
-    <script>
+    <script type="text/javascript">
     {% for name, addr in query.items() %}
     add_query("{{ name }}", "{{ addr }}");
     {% endfor %}
+    </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='names.js') }}"></script>
+    <script type="text/javascript">
+    set_autocomplete(names);
     </script>
   </body>
 </html>
