@@ -47,7 +47,7 @@ def index():
     '''
     query = decode_query(request.args.get('q', ''))
     if len(query) == 0:
-        demo_query = {'__libc_start_main_ret':'7ae', '_IO_2_1_stdin_':'600'}
+        demo_query = {'__libc_start_main_ret':'e81', '_IO_2_1_stdin_':'5c0'}
         return render_template('index.html', query=demo_query)
     else:
         libs = engine.find(query)
