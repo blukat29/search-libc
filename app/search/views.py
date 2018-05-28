@@ -55,7 +55,7 @@ def index():
     lib = request.args.get('l')
     log_query(query, libs, lib)
     if not lib:
-        return render_template('index.html', query=query, libs=libs)
+        return render_template('index.html', query=query, libs=libs, notfound=True)
 
     symbols = engine.dump(lib, list(query.keys()))
     return render_template('index.html', query=query, libs=libs, lib=lib, symbols=symbols)
