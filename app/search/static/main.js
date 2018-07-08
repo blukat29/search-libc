@@ -74,7 +74,8 @@ function show_offset_diffs($radio) {
 
 function set_autocomplete(names) {
     $('.query-name').autocomplete({
-        source: names
+        source: names,
+        minLength: 2,
     });
 }
 

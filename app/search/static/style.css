@@ -17,6 +17,12 @@
     font-weight: bold;
 }
 
+/* Autocomplete */
+.ui-menu .ui-menu-item {
+    font-size: 0.8em;
+    font-family: Monaco, Consolas, monospace;
+}
+
 /* Common */
 .mono-font {
     font-size: 0.9em;
