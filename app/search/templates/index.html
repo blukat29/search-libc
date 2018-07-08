@@ -5,12 +5,62 @@
     <meta name="viewport" content="width=device-width" />
     <title>libc database search</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/start/jquery-ui.css">
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='URI.min.js') }}"></script>
+    <style>
+/* Query panel */
+.form-inline {
+    margin-top: 1em;
+}
+.form-inline > input {
+    margin-right: 1em;
+}
+.query-name.form-control {
+    width: 60%;
+}
+.query-addr.form-control {
+    width: 20%;
+}
+
+/* Matches panel */
+.lib-item.active {
+    font-weight: bold;
+}
+
+/* Autocomplete */
+.ui-menu .ui-menu-item {
+    font-size: 0.8em;
+    font-family: Monaco, Consolas, monospace;
+}
+
+/* Common */
+.mono-font {
+    font-size: 0.9em;
+    font-family: Monaco, Consolas, monospace;
+}
+.panel-title-inline {
+    display: inline-block;
+}
+.panel-title-right {
+    float: right;
+}
+
+/* Sticky footer */
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin-bottom: 60px;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    background-color: #ffffff;
+}
+    </style>
   </head>
   <body>
     <div class="container">
@@ -110,8 +160,99 @@
       </div>
     </footer>
 
-    <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='URI.min.js') }}"></script>
     <script type="text/javascript">
+function add_query(name, addr) {
+    name = name || "";
+    addr = addr || "";
+
+    var form = $('<form class="form-inline query-item"></form>');
+    var e_name = $('<input type="text" class="form-control mono-font query-name" value="'
+            + name + '"/>');
+    var e_addr = $('<input type="text" class="form-control mono-font query-addr" value="'
+            + addr + '"/>');
+    var del_btn = $('<button type="button" class="query-del btn btn-danger">-</button>');
+    form.append(e_name);
+    form.append(e_addr);
+    form.append(del_btn);
+    $('#queries').append(form);
+}
+
+function get_query() {
+    var query = [];
+    $('.query-item').each(function(i,e) {
+        var $e = $(e);
+        var name = $e.find('.query-name').val();
+        var addr = $e.find('.query-addr').val();
+        if (name && addr)
+            query.push(name + ':' + addr)
+    });
+    return query.join(',');
+}
+
+$('body').on('click', '.query-del', function(e) {
+    $(this).parent('form').remove();
+});
+
+$('#query-add').click(function() {
+    add_query();
+});
+
+$('#query-find').click(function() {
+    location.href = URI(window.location).query({q: get_query()});
+});
+
+$('.lib-item').click(function() {
+    location.href = URI(window.location).query({
+        q: get_query(),
+        l: $.trim($(this).text())
+    });
+});
+
+function get_ofs($e) {
+    return parseInt($e.find('.symbol-ofs').text(), 16);
+}
+
+function set_ofs($e, d) {
+    var s = ''
+    if (d < 0)
+        s = '-0x' + (-d).toString(16);
+    else
+        s = '0x' + (+d).toString(16);
+    $e.find('.symbol-diff').text(s);
+}
+
+function show_offset_diffs($radio) {
+    var $row = $radio.parents('tr.symbol-row');
+    $('.symbol-row').removeClass('info');
+    $row.addClass('info');
+
+    var base = get_ofs($row);
+    $('.symbol-row').each(function(i, e) {
+        var $e = $(e);
+        set_ofs($e, get_ofs($e) - base);
+    });
+}
+
+function set_autocomplete(names) {
+    $('.query-name').autocomplete({
+        source: names,
+        minLength: 2,
+    });
+}
+
+$('.symbol-radio').change(function() {
+    show_offset_diffs($(this));
+});
+
+$(document).ready(function() {
+    var $first = $('.symbol-radio').first();
+    $first.prop('checked', true);
+    show_offset_diffs($first);
+});
     {% for name, addr in query.items() %}
     add_query("{{ name }}", "{{ addr }}");
     {% endfor %}
