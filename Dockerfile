@@ -27,4 +27,4 @@ RUN cd / && /gen_names.sh
 # nginx.conf of the base image aliases /static to /app/static.
 RUN ln -s /app/search/static /app/static
 # Enable download link
-COPY nginx.conf /etc/nginx/conf.d/nginx.conf
+COPY nginx.conf /etc/nginx/conf.d/download.conf
