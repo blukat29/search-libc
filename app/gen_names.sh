@@ -1,5 +1,5 @@
-dbdir=libc-database/db
-outfile=app/search/static/names.js
+dbdir=/libc-database/db
+outfile=/app/search/static/names.js
 
 cat $dbdir/*.symbols \
     | cut -d ' ' -f 1 \

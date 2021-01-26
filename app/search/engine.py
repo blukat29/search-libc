@@ -3,7 +3,7 @@ import os
 import re
 import operator
 
-info_re = re.compile(r'[^(]+\(id (.*)\)')
+info_re = re.compile(r'[^(]+\((.*)\)')
 ofs_re = re.compile(r'offset_([^\s]+) = 0x([0-9a-fA-F]+)')
 
 class Engine(object):
@@ -36,7 +36,8 @@ class Engine(object):
         libs = []
         for line in found.splitlines():
             m = info_re.match(line)
-            libs.append(m.group(1))
+            if m:
+                libs.append(m.group(1))
         return libs
 
     def find(self, query):
@@ -55,9 +56,10 @@ class Engine(object):
         symbols = {}
         for line in dumped.splitlines():
             m = ofs_re.match(line)
-            symbol = m.group(1)
-            ofs = int(m.group(2), 16)
-            symbols[symbol] = ofs
+            if m:
+                symbol = m.group(1)
+                ofs = int(m.group(2), 16)
+                symbols[symbol] = ofs
 
         symbols_list = sorted(symbols.items(), key=operator.itemgetter(1))
         return symbols_list

@@ -1,11 +1,12 @@
-FROM tiangolo/uwsgi-nginx-flask:flask-python3.5
+FROM tiangolo/uwsgi-nginx-flask:python3.8
 
 # Remove sample application included in the base image.
 RUN rm /app/main.py /app/uwsgi.ini
 
-# Install cron
+# Install packages
+# TODO: install zstd
 RUN apt-get update \
-    && apt-get install -y cron \
+    && apt-get install -y cron binutils file wget rpm2cpio cpio \
     && rm -rf /var/lib/apt/lists/*
 
 # Install cron job
@@ -21,8 +22,7 @@ COPY app /app
 COPY libc-database /libc-database
 
 # Generate autocomplete symbols list
-COPY gen_names.sh /gen_names.sh
-RUN cd / && /gen_names.sh
+RUN /app/gen_names.sh
 
 # nginx.conf of the base image aliases /static to /app/static.
 RUN ln -s /app/search/static /app/static
