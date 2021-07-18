@@ -13,7 +13,7 @@ Web wrapper of [libc-database](https://github.com/niklasb/libc-database)
 
     git submodule update --init
     cd libc-database
-    ./get
+    ./get all
     cd ..
     docker build -t libc:latest .
     docker run -p 31337:80 -it libc:latest
@@ -22,7 +22,7 @@ Web wrapper of [libc-database](https://github.com/niklasb/libc-database)
 
     git submodule update --init
     cd libc-database
-    ./get
+    ./get all
     cd ..
     cd app
     pip install Flask

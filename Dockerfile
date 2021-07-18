@@ -6,7 +6,14 @@ RUN rm /app/main.py /app/uwsgi.ini
 # Install packages
 # TODO: install zstd
 RUN apt-get update \
-    && apt-get install -y cron binutils file wget rpm2cpio cpio \
+    && apt-get install -y \
+        binutils \
+        cpio \
+        cron \
+        file \
+        jq \
+        rpm2cpio \
+        wget \
     && rm -rf /var/lib/apt/lists/*
 
 # Install cron job
