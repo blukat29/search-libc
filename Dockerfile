@@ -14,6 +14,7 @@ RUN apt-get update \
         jq \
         rpm2cpio \
         wget \
+        zstd \
     && rm -rf /var/lib/apt/lists/*
 
 # Install cron job
