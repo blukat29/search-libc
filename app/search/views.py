@@ -29,7 +29,7 @@ def log_query(query, libs, lib):
     if lib and (lib not in libs):
         err.append('Lib not in result')
 
-    msg = {'query': query, 'ip': ip, 'result': libs, 'chosen': lib, 'error': err}
+    msg = {'query': query, 'ip': ip, 'error': err}
     logger.warning('VIEWS: {}'.format(json.dumps(msg)))
 
 @search_view.route('/')
