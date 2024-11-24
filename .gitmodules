@@ -1,4 +1,4 @@
 [submodule "libc-database"]
 	path = libc-database
-	url = https://github.com/blukat29/libc-database
+	url = https://github.com/niklasb/libc-database
 	branch = master
